@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /ecollege/
+
+    # Уже в public/ — не переписывать повторно
+    RewriteRule ^public/ - [L]
+
+    RewriteRule ^$ public/ [L]
+    RewriteRule ^(.+)$ public/$1 [L]
+</IfModule>
+
+Options -Indexes
