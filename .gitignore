@@ -4,3 +4,9 @@
 .env
 .DS_Store
 composer.lock
+
+# Environment-specific (URLs, DB, rewrite rules)
+app/config/app.php
+app/config/database.php
+.htaccess
+public/.htaccess
