@@ -41,11 +41,20 @@ class Teacher extends BaseModel
 
     public function update(int $id, array $data): bool
     {
-        if (!isset($data['department'])) {
+        $fields = [];
+        $params = [];
+        foreach (['department'] as $f) {
+            if (array_key_exists($f, $data)) {
+                $fields[] = "{$f} = ?";
+                $params[] = $data[$f];
+            }
+        }
+        if ($fields === []) {
             return false;
         }
-        return $this->db->prepare('UPDATE teachers SET department = ? WHERE id = ?')
-            ->execute([$data['department'], $id]);
+        $params[] = $id;
+        return $this->db->prepare('UPDATE teachers SET ' . implode(', ', $fields) . ' WHERE id = ?')
+            ->execute($params);
     }
 
     public function allForSelect(): array

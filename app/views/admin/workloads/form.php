@@ -1,6 +1,7 @@
 <?php $isEdit = !empty($workload); ?>
-<div class="card shadow-sm border-0 col-lg-8">
-    <div class="card-body">
+<div class="app-card col-lg-8">
+    <div class="app-card-header"><?= $isEdit ? 'Редактирование нагрузки' : 'Новая нагрузка' ?></div>
+    <div class="card-body padded">
         <form method="post" action="<?= $isEdit ? base_url('admin/workloads/' . $workload['id']) : base_url('admin/workloads') ?>">
             <?= csrf_field() ?>
             <?php if (!$isEdit): ?>
@@ -18,6 +19,10 @@
                 <label class="form-label">Название модуля *</label>
                 <input type="text" name="module_name" class="form-control" required value="<?= e($workload['module_name'] ?? '') ?>">
             </div>
+            <div class="mb-3">
+                <label class="form-label">Группа</label>
+                <input type="text" name="study_group" class="form-control" placeholder="ИС-21" value="<?= e($workload['study_group'] ?? '') ?>">
+            </div>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Нагрузка практики (часов) *</label>
@@ -29,7 +34,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Сохранить</button>
-            <a href="<?= base_url('admin/workloads') ?>" class="btn btn-link">Отмена</a>
+            <a href="<?= base_url('admin/workloads') ?>" class="btn btn-outline-secondary">Отмена</a>
         </form>
     </div>
 </div>

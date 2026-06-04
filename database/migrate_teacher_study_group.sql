@@ -1,0 +1,2 @@
+-- Устарело: группа перенесена в workloads (см. migrate_workload_study_group.sql)
+-- Если колонка уже была добавлена в teachers, выполните migrate_workload_study_group.sql

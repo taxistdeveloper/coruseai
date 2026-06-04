@@ -22,12 +22,13 @@ class Workload extends BaseModel
     public function create(array $data): int
     {
         $stmt = $this->db->prepare(
-            'INSERT INTO workloads (teacher_id, module_name, practice_hours, deadline, status, assigned_by)
-             VALUES (?, ?, ?, ?, ?, ?)'
+            'INSERT INTO workloads (teacher_id, module_name, study_group, practice_hours, deadline, status, assigned_by)
+             VALUES (?, ?, ?, ?, ?, ?, ?)'
         );
         $stmt->execute([
             $data['teacher_id'],
             $data['module_name'],
+            $data['study_group'] ?? null,
             $data['practice_hours'],
             $data['deadline'],
             $data['status'] ?? 'assigned',
@@ -38,7 +39,7 @@ class Workload extends BaseModel
 
     public function update(int $id, array $data): bool
     {
-        $map = ['module_name', 'practice_hours', 'deadline', 'status', 'submitted_file_path',
+        $map = ['module_name', 'study_group', 'practice_hours', 'deadline', 'status', 'submitted_file_path',
             'submitted_filename', 'submitted_at', 'comment', 'progress_percent', 'document_path'];
         $fields = [];
         $params = [];
@@ -104,7 +105,7 @@ class Workload extends BaseModel
 
     public function dashboardRows(string $search = '', ?int $teacherId = null, string $statusFilter = ''): array
     {
-        $sql = "SELECT w.id AS workload_id, w.module_name, w.practice_hours, w.deadline, w.status,
+        $sql = "SELECT w.id AS workload_id, w.module_name, w.study_group, w.practice_hours, w.deadline, w.status,
                        w.submitted_at, w.progress_percent, u.fullname AS teacher_name, t.id AS teacher_id
                 FROM workloads w
                 INNER JOIN teachers t ON t.id = w.teacher_id
@@ -171,6 +172,23 @@ class Workload extends BaseModel
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll();
+    }
+
+    /** @return list<array<string, mixed>> */
+    public function allWithSchedule(): array
+    {
+        return $this->db->query(
+            "SELECT w.id, w.module_name, w.study_group, w.form_data,
+                    u.fullname AS teacher_name
+             FROM workloads w
+             INNER JOIN teachers t ON t.id = w.teacher_id
+             INNER JOIN users u ON u.id = t.user_id
+             WHERE u.is_active = 1
+               AND w.form_data IS NOT NULL
+               AND TRIM(w.form_data) != ''
+               AND TRIM(w.form_data) != 'null'
+             ORDER BY u.fullname ASC, w.module_name ASC"
+        )->fetchAll();
     }
 
     public function countSubmitted(string $search = '', ?int $teacherId = null): int

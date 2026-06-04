@@ -9,7 +9,6 @@ use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Workload;
 use App\Services\AuditService;
-use App\Services\WorkloadDocumentService;
 
 class TeacherController extends Controller
 {
@@ -74,15 +73,11 @@ class TeacherController extends Controller
             $wlId = (new Workload())->create([
                 'teacher_id'     => $teacherId,
                 'module_name'    => $data['module_name'],
+                'study_group'    => $data['study_group'] ?: null,
                 'practice_hours' => (int) $data['practice_hours'],
                 'deadline'       => $data['deadline'],
                 'assigned_by'    => auth_id(),
             ]);
-            try {
-                (new WorkloadDocumentService())->ensureForWorkload($wlId);
-            } catch (\Throwable) {
-                // шаблон может быть не загружен
-            }
         }
 
         flash('success', 'Преподаватель и нагрузка добавлены.');
@@ -127,7 +122,9 @@ class TeacherController extends Controller
             $userData['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
         }
         $this->users->update((int) $teacher['user_id'], $userData);
-        $this->teachers->update((int) $id, ['department' => $data['department']]);
+        $this->teachers->update((int) $id, [
+            'department' => $data['department'],
+        ]);
         $this->audit->record('teacher_update', 'teacher', (int) $id);
 
         flash('success', 'Данные обновлены.');
@@ -153,6 +150,7 @@ class TeacherController extends Controller
             'login'          => trim($_POST['login'] ?? ''),
             'password'       => $_POST['password'] ?? '',
             'department'     => trim($_POST['department'] ?? ''),
+            'study_group'    => trim($_POST['study_group'] ?? ''),
             'module_name'    => trim($_POST['module_name'] ?? ''),
             'practice_hours' => (int) ($_POST['practice_hours'] ?? 0),
             'deadline'       => trim($_POST['deadline'] ?? ''),

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <title>Прототип — eCollege Графики</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="assets/css/app.css" rel="stylesheet">
+    <link href="assets/css/prototype.css" rel="stylesheet">
+</head>
+<body class="prototype-mode">
+
+<!-- ── Prototype toolbar ─────────────────────────────────── -->
+<div class="prototype-bar" role="toolbar" aria-label="Навигация прототипа">
+    <span class="prototype-bar__label">Прототип</span>
+    <div class="prototype-bar__screens" id="protoNav">
+        <button type="button" class="prototype-bar__btn is-active" data-screen="login">Вход</button>
+        <button type="button" class="prototype-bar__btn" data-screen="admin-dashboard">Обзор</button>
+        <button type="button" class="prototype-bar__btn" data-screen="admin-workloads">Нагрузки</button>
+        <button type="button" class="prototype-bar__btn" data-screen="admin-workload-detail">График</button>
+        <button type="button" class="prototype-bar__btn" data-screen="admin-teachers">Преподаватели</button>
+        <button type="button" class="prototype-bar__btn" data-screen="teacher-dashboard">Кабинет</button>
+    </div>
+    <span class="prototype-bar__hint">Кликайте элементы внутри экранов</span>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 1 — Login
+     ══════════════════════════════════════════════════════════ -->
+<section class="prototype-screen is-active" id="screen-login" data-screen="login">
+    <main class="auth-wrapper">
+        <div class="auth-shell auth-shell--mobile">
+            <aside class="auth-brand" aria-hidden="true">
+                <div class="auth-brand__glow"></div>
+                <div class="auth-brand__inner">
+                    <div class="auth-brand__logo">
+                        <i class="bi bi-calendar3-week" aria-hidden="true"></i>
+                    </div>
+                    <h1 class="auth-brand__title">eCollege Графики</h1>
+                    <p class="auth-brand__tagline">Управление графиками и нагрузкой преподавателей</p>
+                    <ul class="auth-brand__features">
+                        <li><i class="bi bi-calendar-check" aria-hidden="true"></i> Графики занятий</li>
+                        <li><i class="bi bi-people" aria-hidden="true"></i> Нагрузка преподавателей</li>
+                        <li><i class="bi bi-bar-chart-line" aria-hidden="true"></i> Отчёты и контроль</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <div class="auth-panel">
+                <div class="card auth-card">
+                    <div class="card-body">
+                        <div class="auth-panel__header d-lg-none">
+                            <div class="auth-brand__logo auth-brand__logo--sm">
+                                <i class="bi bi-calendar3-week" aria-hidden="true"></i>
+                            </div>
+                            <h2 class="auth-panel__title">eCollege Графики</h2>
+                            <p class="auth-subtitle mb-0">Вход в систему</p>
+                        </div>
+                        <div class="auth-panel__header d-none d-lg-block">
+                            <h2 class="auth-panel__title mb-1">Добро пожаловать</h2>
+                            <p class="auth-subtitle mb-0">Войдите, чтобы продолжить работу</p>
+                        </div>
+
+                        <form class="auth-form" onsubmit="return false;">
+                            <div class="mb-3">
+                                <label class="form-label" for="proto-login">Логин</label>
+                                <div class="auth-input-wrap">
+                                    <span class="auth-input-icon" aria-hidden="true"><i class="bi bi-person"></i></span>
+                                    <input type="text" id="proto-login" class="form-control form-control-lg auth-input" placeholder="Введите логин" value="admin">
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label" for="proto-password">Пароль</label>
+                                <div class="auth-input-wrap">
+                                    <span class="auth-input-icon" aria-hidden="true"><i class="bi bi-lock"></i></span>
+                                    <input type="password" id="proto-password" class="form-control form-control-lg auth-input auth-input--password" placeholder="Введите пароль" value="••••••••">
+                                    <button type="button" class="auth-password-toggle" aria-label="Показать пароль">
+                                        <i class="bi bi-eye" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-lg w-100 auth-submit proto-goto" data-target="admin-dashboard">
+                                <span>Войти</span>
+                                <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
+                            </button>
+                        </form>
+
+                        <div class="auth-demo mt-4">
+                            <p class="auth-demo__label">Демо-аккаунты</p>
+                            <div class="auth-demo__chips">
+                                <button type="button" class="auth-demo-chip proto-goto" data-target="admin-dashboard">
+                                    <span class="auth-demo-chip__role">Администратор</span>
+                                    <span class="auth-demo-chip__creds">admin / admin</span>
+                                </button>
+                                <button type="button" class="auth-demo-chip proto-goto" data-target="teacher-dashboard">
+                                    <span class="auth-demo-chip__role">Преподаватель</span>
+                                    <span class="auth-demo-chip__creds">teacher / teacher</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 2 — Admin Dashboard
+     ══════════════════════════════════════════════════════════ -->
+<section class="prototype-screen" id="screen-admin-dashboard" data-screen="admin-dashboard">
+    <div class="d-flex app-layout" id="wrapper">
+        <nav class="sidebar d-none d-lg-flex" aria-label="Главное меню">
+            <div class="sidebar-brand">
+                <i class="bi bi-calendar3-week" aria-hidden="true"></i>
+                <span>Графики</span>
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link active proto-goto" data-target="admin-dashboard" href="#"><i class="bi bi-speedometer2"></i>Обзор</a></li>
+                <li class="nav-item"><a class="nav-link proto-goto" data-target="admin-teachers" href="#"><i class="bi bi-people"></i>Преподаватели</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-person-badge"></i>Учебный процесс</a></li>
+                <li class="nav-item"><a class="nav-link proto-goto" data-target="admin-workloads" href="#"><i class="bi bi-journal-bookmark"></i>Нагрузки</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-check2-square"></i>Сданные графики</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-calendar-event"></i>Отчеты по практике</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-journal-text"></i>Аудит</a></li>
+            </ul>
+        </nav>
+
+        <div id="page-content-wrapper" class="w-100 app-screen">
+            <header class="topbar app-header d-flex align-items-center gap-2">
+                <div class="app-header-start d-flex align-items-center gap-2 min-w-0 flex-grow-1">
+                    <div class="app-header-titles min-w-0">
+                        <h1 class="page-title text-truncate mb-0">Обзор</h1>
+                    </div>
+                </div>
+                <div class="app-header-actions d-flex align-items-center gap-2 flex-shrink-0">
+                    <span class="topbar-user d-none d-lg-inline">Администратор Системы</span>
+                    <a href="#" class="btn btn-outline-secondary d-none d-lg-inline-flex proto-goto" data-target="login">
+                        <i class="bi bi-box-arrow-right"></i><span>Выход</span>
+                    </a>
+                </div>
+            </header>
+
+            <main class="container-fluid app-main">
+                <div class="row g-4 mb-4 stat-scroll-row">
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card stat-card h-100">
+                            <div class="card-body">
+                                <div class="stat-label">Всего преподавателей</div>
+                                <div class="stat-value text-primary">48</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card stat-card h-100">
+                            <div class="card-body">
+                                <div class="stat-label">Сдали график</div>
+                                <div class="stat-value text-success">32</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card stat-card h-100">
+                            <div class="card-body">
+                                <div class="stat-label">Не сдали</div>
+                                <div class="stat-value text-danger">16</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card stat-card h-100">
+                            <div class="card-body">
+                                <div class="stat-label">Выполнение</div>
+                                <div class="stat-value text-secondary">67%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-card mb-4">
+                    <div class="card-body padded filter-bar">
+                        <form class="row g-3 align-items-end" onsubmit="return false;">
+                            <div class="col-md-4">
+                                <label class="form-label">Поиск</label>
+                                <input type="search" class="form-control" placeholder="ФИО, модуль...">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Преподаватель</label>
+                                <select class="form-select"><option>Все</option><option>Иванова А.С.</option></select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Статус</label>
+                                <select class="form-select"><option>Все</option><option>Сдано</option><option>В работе</option></select>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-primary w-100">Применить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-card-header">
+                        <span>Нагрузки и сдача графиков</span>
+                        <div class="btn-group-actions">
+                            <button type="button" class="btn btn-primary proto-goto" data-target="admin-workloads">
+                                <i class="bi bi-plus-lg"></i> Нагрузка
+                            </button>
+                            <button type="button" class="btn btn-outline-primary">Экспорт</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>ФИО</th>
+                                    <th>Модуль</th>
+                                    <th>Часов</th>
+                                    <th>Срок</th>
+                                    <th>Статус</th>
+                                    <th>%</th>
+                                    <th>Дата сдачи</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="proto-clickable proto-goto" data-target="admin-workload-detail">
+                                    <td>Иванова А.С.</td>
+                                    <td>Педагогическая практика</td>
+                                    <td>72</td>
+                                    <td>15.09.2025</td>
+                                    <td><span class="badge-status badge-status--in_progress">В работе</span></td>
+                                    <td>58%</td>
+                                    <td>—</td>
+                                    <td><span class="btn btn-outline-primary btn-sm">Открыть</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Петров К.М.</td>
+                                    <td>Производственная практика</td>
+                                    <td>108</td>
+                                    <td>01.09.2025</td>
+                                    <td><span class="badge-status badge-status--submitted">Сдано</span></td>
+                                    <td>100%</td>
+                                    <td>28.08.2025</td>
+                                    <td><span class="btn btn-outline-primary btn-sm">Открыть</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Смирнова Е.В.</td>
+                                    <td>Учебная практика</td>
+                                    <td>54</td>
+                                    <td>20.08.2025</td>
+                                    <td><span class="badge-status badge-status--overdue">Просрочено</span></td>
+                                    <td>22%</td>
+                                    <td>—</td>
+                                    <td><span class="btn btn-outline-primary btn-sm">Открыть</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 3 — Admin Workloads
+     ══════════════════════════════════════════════════════════ -->
+<section class="prototype-screen" id="screen-admin-workloads" data-screen="admin-workloads">
+    <div class="d-flex app-layout">
+        <nav class="sidebar d-none d-lg-flex" aria-label="Главное меню">
+            <div class="sidebar-brand"><i class="bi bi-calendar3-week"></i><span>Графики</span></div>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link proto-goto" data-target="admin-dashboard" href="#"><i class="bi bi-speedometer2"></i>Обзор</a></li>
+                <li class="nav-item"><a class="nav-link proto-goto" data-target="admin-teachers" href="#"><i class="bi bi-people"></i>Преподаватели</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-person-badge"></i>Учебный процесс</a></li>
+                <li class="nav-item"><a class="nav-link active proto-goto" data-target="admin-workloads" href="#"><i class="bi bi-journal-bookmark"></i>Нагрузки</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-check2-square"></i>Сданные графики</a></li>
+            </ul>
+        </nav>
+        <div class="w-100 app-screen">
+            <header class="topbar app-header d-flex align-items-center gap-2">
+                <div class="app-header-start flex-grow-1 min-w-0">
+                    <h1 class="page-title mb-0">Нагрузки</h1>
+                </div>
+                <div class="app-header-actions">
+                    <span class="topbar-user d-none d-lg-inline">Администратор Системы</span>
+                </div>
+            </header>
+            <main class="container-fluid app-main">
+                <div class="page-toolbar">
+                    <form class="toolbar-search" onsubmit="return false;">
+                        <input type="search" class="form-control" placeholder="Поиск по ФИО, модулю...">
+                        <button type="button" class="btn btn-primary">Найти</button>
+                    </form>
+                    <button type="button" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Назначить нагрузку</button>
+                </div>
+
+                <div class="app-card">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Преподаватель</th>
+                                    <th>Модуль</th>
+                                    <th>Группа</th>
+                                    <th>Часов</th>
+                                    <th>Срок</th>
+                                    <th>Статус</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="proto-clickable proto-goto" data-target="admin-workload-detail">
+                                    <td>Иванова А.С.</td>
+                                    <td>Педагогическая практика</td>
+                                    <td>ПД-21</td>
+                                    <td>72</td>
+                                    <td>15.09.2025</td>
+                                    <td><span class="badge-status badge-status--in_progress">В работе</span></td>
+                                    <td><span class="btn btn-outline-primary btn-sm">Открыть</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Касымова Д.Т.</td>
+                                    <td>Производственная практика</td>
+                                    <td>ИС-22</td>
+                                    <td>108</td>
+                                    <td>01.10.2025</td>
+                                    <td><span class="badge-status badge-status--assigned">Назначено</span></td>
+                                    <td><span class="btn btn-outline-primary btn-sm">Открыть</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 4 — Workload Detail / Schedule
+     ══════════════════════════════════════════════════════════ -->
+<section class="prototype-screen" id="screen-admin-workload-detail" data-screen="admin-workload-detail">
+    <div class="d-flex app-layout">
+        <nav class="sidebar d-none d-lg-flex" aria-label="Главное меню">
+            <div class="sidebar-brand"><i class="bi bi-calendar3-week"></i><span>Графики</span></div>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link proto-goto" data-target="admin-workloads" href="#"><i class="bi bi-journal-bookmark"></i>Нагрузки</a></li>
+            </ul>
+        </nav>
+        <div class="w-100 app-screen">
+            <header class="topbar app-header d-flex align-items-center gap-2">
+                <div class="app-header-start flex-grow-1 min-w-0">
+                    <button type="button" class="btn btn-icon btn-back proto-goto" data-target="admin-workloads" aria-label="Назад">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <h1 class="page-title mb-0">Иванова А.С. — Педагогическая практика</h1>
+                </div>
+            </header>
+            <main class="container-fluid app-main">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="card stat-card h-100">
+                            <div class="card-body">
+                                <div class="stat-label">Лимит часов</div>
+                                <div class="stat-value">72</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card h-100">
+                            <div class="card-body">
+                                <div class="stat-label">Запланировано</div>
+                                <div class="stat-value text-primary">42</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card h-100">
+                            <div class="card-body">
+                                <div class="stat-label">Осталось</div>
+                                <div class="stat-value text-secondary">30</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card h-100">
+                            <div class="card-body">
+                                <div class="stat-label">Прогресс</div>
+                                <div class="stat-value text-success">58%</div>
+                                <div class="progress mt-2"><div class="progress-bar" style="width:58%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-card mb-4">
+                    <div class="app-card-header">График — Сентябрь 2025</div>
+                    <div class="card-body padded">
+                        <div class="proto-schedule-grid mb-3">
+                            <div class="proto-schedule-grid__head">Пн</div>
+                            <div class="proto-schedule-grid__head">Вт</div>
+                            <div class="proto-schedule-grid__head">Ср</div>
+                            <div class="proto-schedule-grid__head">Чт</div>
+                            <div class="proto-schedule-grid__head">Пт</div>
+                            <div class="proto-schedule-grid__head">Сб</div>
+                            <div class="proto-schedule-grid__head">Вс</div>
+
+                            <div class="proto-schedule-cell is-filled"><span class="proto-schedule-cell__day">1</span><span class="proto-schedule-cell__hours">6ч</span></div>
+                            <div class="proto-schedule-cell is-filled"><span class="proto-schedule-cell__day">2</span><span class="proto-schedule-cell__hours">6ч</span></div>
+                            <div class="proto-schedule-cell is-filled"><span class="proto-schedule-cell__day">3</span><span class="proto-schedule-cell__hours">6ч</span></div>
+                            <div class="proto-schedule-cell is-filled"><span class="proto-schedule-cell__day">4</span><span class="proto-schedule-cell__hours">6ч</span></div>
+                            <div class="proto-schedule-cell is-filled"><span class="proto-schedule-cell__day">5</span><span class="proto-schedule-cell__hours">6ч</span></div>
+                            <div class="proto-schedule-cell is-holiday"><span class="proto-schedule-cell__day">6</span></div>
+                            <div class="proto-schedule-cell is-holiday"><span class="proto-schedule-cell__day">7</span></div>
+
+                            <div class="proto-schedule-cell is-filled"><span class="proto-schedule-cell__day">8</span><span class="proto-schedule-cell__hours">6ч</span></div>
+                            <div class="proto-schedule-cell"><span class="proto-schedule-cell__day">9</span></div>
+                            <div class="proto-schedule-cell"><span class="proto-schedule-cell__day">10</span></div>
+                            <div class="proto-schedule-cell"><span class="proto-schedule-cell__day">11</span></div>
+                            <div class="proto-schedule-cell"><span class="proto-schedule-cell__day">12</span></div>
+                            <div class="proto-schedule-cell is-holiday"><span class="proto-schedule-cell__day">13</span></div>
+                            <div class="proto-schedule-cell is-holiday"><span class="proto-schedule-cell__day">14</span></div>
+                        </div>
+                        <p class="text-muted small mb-0">
+                            <i class="bi bi-info-circle"></i>
+                            Суббота, воскресенье и праздники РК не учитываются в нагрузке.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 flex-wrap">
+                    <button type="button" class="btn btn-primary"><i class="bi bi-download"></i> Скачать DOCX</button>
+                    <button type="button" class="btn btn-outline-primary"><i class="bi bi-upload"></i> Загрузить Excel</button>
+                    <button type="button" class="btn btn-outline-secondary proto-goto" data-target="admin-workloads">Назад к списку</button>
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 5 — Teachers
+     ══════════════════════════════════════════════════════════ -->
+<section class="prototype-screen" id="screen-admin-teachers" data-screen="admin-teachers">
+    <div class="d-flex app-layout">
+        <nav class="sidebar d-none d-lg-flex" aria-label="Главное меню">
+            <div class="sidebar-brand"><i class="bi bi-calendar3-week"></i><span>Графики</span></div>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link proto-goto" data-target="admin-dashboard" href="#"><i class="bi bi-speedometer2"></i>Обзор</a></li>
+                <li class="nav-item"><a class="nav-link active proto-goto" data-target="admin-teachers" href="#"><i class="bi bi-people"></i>Преподаватели</a></li>
+                <li class="nav-item"><a class="nav-link proto-goto" data-target="admin-workloads" href="#"><i class="bi bi-journal-bookmark"></i>Нагрузки</a></li>
+            </ul>
+        </nav>
+        <div class="w-100 app-screen">
+            <header class="topbar app-header d-flex align-items-center gap-2">
+                <div class="app-header-start flex-grow-1"><h1 class="page-title mb-0">Преподаватели</h1></div>
+                <div class="app-header-actions">
+                    <button type="button" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Добавить</button>
+                </div>
+            </header>
+            <main class="container-fluid app-main">
+                <div class="app-card">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>ФИО</th>
+                                    <th>Логин</th>
+                                    <th>Кафедра</th>
+                                    <th>Группа</th>
+                                    <th>Нагрузок</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Иванова Айгуль Сериковна</td>
+                                    <td>ivanova</td>
+                                    <td>Педагогика</td>
+                                    <td>ПД-21</td>
+                                    <td>2</td>
+                                    <td><span class="btn btn-outline-primary btn-sm">Изменить</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Петров Константин Михайлович</td>
+                                    <td>petrov</td>
+                                    <td>Информатика</td>
+                                    <td>ИС-22</td>
+                                    <td>1</td>
+                                    <td><span class="btn btn-outline-primary btn-sm">Изменить</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Смирнова Елена Владимировна</td>
+                                    <td>smirnova</td>
+                                    <td>Медицина</td>
+                                    <td>МД-20</td>
+                                    <td>3</td>
+                                    <td><span class="btn btn-outline-primary btn-sm">Изменить</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 6 — Teacher Dashboard
+     ══════════════════════════════════════════════════════════ -->
+<section class="prototype-screen" id="screen-teacher-dashboard" data-screen="teacher-dashboard">
+    <div class="d-flex app-layout">
+        <nav class="sidebar d-none d-lg-flex" aria-label="Главное меню">
+            <div class="sidebar-brand"><i class="bi bi-calendar3-week"></i><span>Графики</span></div>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link active proto-goto" data-target="teacher-dashboard" href="#"><i class="bi bi-list-task"></i>Моя нагрузка</a></li>
+            </ul>
+        </nav>
+        <div class="w-100 app-screen">
+            <header class="topbar app-header d-flex align-items-center gap-2">
+                <div class="app-header-start flex-grow-1">
+                    <h1 class="page-title mb-0">Моя нагрузка</h1>
+                </div>
+                <div class="app-header-actions">
+                    <span class="topbar-user d-none d-lg-inline">Иванова А.С.</span>
+                    <a href="#" class="btn btn-outline-secondary d-none d-lg-inline-flex proto-goto" data-target="login">
+                        <i class="bi bi-box-arrow-right"></i><span>Выход</span>
+                    </a>
+                </div>
+            </header>
+            <main class="container-fluid app-main">
+                <div class="info-banner alert alert-info mb-4" role="status">
+                    <i class="bi bi-info-circle"></i>
+                    <span>Заполните график до лимита часов. Считаются только будни; суббота, воскресенье и праздники РК — нет.</span>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card workload-card h-100">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="card-title">Педагогическая практика</h3>
+                                <p class="meta-line mb-1">Группа: ПД-21</p>
+                                <p class="mb-2"><span class="badge-status badge-status--in_progress">В работе</span></p>
+                                <p class="meta-line">72 часов · 58%</p>
+                                <p class="meta-line mb-4">Срок: 15.09.2025</p>
+                                <div class="mt-auto">
+                                    <button type="button" class="btn btn-primary w-100 proto-goto" data-target="admin-workload-detail">
+                                        <i class="bi bi-pencil-square"></i> Заполнить график
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card workload-card h-100">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="card-title">Учебная практика</h3>
+                                <p class="meta-line mb-1">Группа: ПД-21</p>
+                                <p class="mb-2"><span class="badge-status badge-status--submitted">Сдано</span></p>
+                                <p class="meta-line">36 часов · 100%</p>
+                                <p class="meta-line mb-4">Срок: 01.06.2025</p>
+                                <div class="mt-auto">
+                                    <button type="button" class="btn btn-outline-primary w-100">Просмотр</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <nav class="app-bottom-nav d-lg-none" aria-label="Нижняя навигация">
+                <a href="#" class="app-tab active"><i class="bi bi-calendar3-week"></i><span>Мои графики</span></a>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<script>
+(function () {
+    var screens = document.querySelectorAll('.prototype-screen');
+    var navBtns = document.querySelectorAll('#protoNav .prototype-bar__btn');
+
+    function showScreen(id) {
+        screens.forEach(function (s) {
+            s.classList.toggle('is-active', s.dataset.screen === id);
+        });
+        navBtns.forEach(function (b) {
+            b.classList.toggle('is-active', b.dataset.screen === id);
+        });
+        window.scrollTo(0, 0);
+    }
+
+    navBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            showScreen(btn.dataset.screen);
+        });
+    });
+
+    document.querySelectorAll('.proto-goto').forEach(function (el) {
+        el.addEventListener('click', function (e) {
+            e.preventDefault();
+            var target = el.dataset.target;
+            if (target) showScreen(target);
+        });
+    });
+
+    var toggle = document.querySelector('#screen-login .auth-password-toggle');
+    var password = document.getElementById('proto-password');
+    if (toggle && password) {
+        toggle.addEventListener('click', function () {
+            var show = password.type === 'password';
+            password.type = show ? 'text' : 'password';
+            toggle.querySelector('i').className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+        });
+    }
+})();
+</script>
+</body>
+</html>

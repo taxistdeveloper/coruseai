@@ -14,7 +14,7 @@ class AuthController extends Controller
         if (!auth_user()) {
             redirect('/login');
         }
-        redirect(is_admin() ? '/admin' : '/teacher');
+        redirect(auth_home_path());
     }
 
     public function showLogin(): void

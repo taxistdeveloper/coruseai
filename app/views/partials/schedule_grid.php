@@ -16,8 +16,9 @@ foreach ($coords as $c) {
 }
 $cols = range('A', chr(64 + $maxCol));
 ?>
-<div class="card shadow-sm border-0">
-    <div class="card-body table-responsive schedule-grid-wrap">
+<div class="app-card">
+    <div class="app-card-header">Таблица графика</div>
+    <div class="card-body table-responsive schedule-grid-wrap p-0">
         <table class="table table-bordered table-sm schedule-grid mb-0">
             <thead>
                 <tr><th></th>

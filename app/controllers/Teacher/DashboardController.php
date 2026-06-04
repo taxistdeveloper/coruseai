@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controllers\Teacher;
 
 use App\Core\Controller;
-use App\Models\ScheduleTemplate;
 use App\Models\Workload;
 
 class DashboardController extends Controller
@@ -24,7 +23,6 @@ class DashboardController extends Controller
         view('teacher.dashboard', [
             'title'    => 'Моя нагрузка',
             'workloads' => $model->byTeacher($teacherId),
-            'template' => (new ScheduleTemplate())->active(),
         ]);
     }
 }

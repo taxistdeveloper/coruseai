@@ -1,17 +1,21 @@
-<div class="d-flex justify-content-between mb-3">
-    <form method="get" class="d-flex gap-2">
-        <input type="search" name="q" class="form-control" value="<?= e($search) ?>" placeholder="Поиск...">
-        <button class="btn btn-primary">Найти</button>
+<div class="page-toolbar">
+    <form method="get" class="toolbar-search">
+        <input type="search" name="q" class="form-control" value="<?= e($search) ?>" placeholder="Поиск по ФИО, модулю...">
+        <button type="submit" class="btn btn-primary">Найти</button>
     </form>
-    <a href="<?= base_url('admin/workloads/create') ?>" class="btn btn-primary">+ Назначить нагрузку</a>
+    <a href="<?= base_url('admin/workloads/create') ?>" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Назначить нагрузку
+    </a>
 </div>
-<div class="card shadow-sm border-0">
-    <div class="card-body">
-        <table class="table datatable">
+
+<div class="app-card">
+    <div class="table-responsive">
+        <table class="table table-hover datatable mb-0">
             <thead>
                 <tr>
                     <th>Преподаватель</th>
                     <th>Модуль</th>
+                    <th>Группа</th>
                     <th>Часов</th>
                     <th>Срок</th>
                     <th>Статус</th>
@@ -23,11 +27,12 @@
                 <tr>
                     <td><?= e($r['teacher_name']) ?></td>
                     <td><?= e($r['module_name']) ?></td>
+                    <td><?= e($r['study_group'] ?? '') ?: '—' ?></td>
                     <td><?= (int)$r['practice_hours'] ?></td>
                     <td><?= e($r['deadline']) ?></td>
                     <td><?= status_badge($r['status']) ?></td>
                     <td>
-                        <a href="<?= base_url('admin/workloads/' . $r['workload_id']) ?>" class="btn btn-sm btn-outline-primary">Открыть</a>
+                        <a href="<?= base_url('admin/workloads/' . $r['workload_id']) ?>" class="btn btn-outline-primary">Открыть</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

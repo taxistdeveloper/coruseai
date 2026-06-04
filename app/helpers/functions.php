@@ -125,9 +125,41 @@ function is_admin(): bool
     return (auth_user()['role'] ?? '') === 'admin';
 }
 
+function is_academic(): bool
+{
+    return (auth_user()['role'] ?? '') === 'academic';
+}
+
 function is_teacher(): bool
 {
     return (auth_user()['role'] ?? '') === 'teacher';
+}
+
+function is_staff(): bool
+{
+    return is_admin() || is_academic();
+}
+
+function auth_home_path(): string
+{
+    if (is_admin()) {
+        return '/admin';
+    }
+    if (is_academic()) {
+        return '/admin/workloads';
+    }
+    return '/teacher';
+}
+
+function role_label(?string $role = null): string
+{
+    $role ??= auth_user()['role'] ?? '';
+    return match ($role) {
+        'admin'    => 'Администратор',
+        'academic' => 'Учебный процесс',
+        'teacher'  => 'Преподаватель',
+        default    => $role,
+    };
 }
 
 function status_badge(string $status): string

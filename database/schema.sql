@@ -11,7 +11,7 @@ CREATE TABLE users (
     fullname VARCHAR(255) NOT NULL,
     login VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'teacher') NOT NULL DEFAULT 'teacher',
+    role ENUM('admin', 'academic', 'teacher') NOT NULL DEFAULT 'teacher',
     is_active TINYINT(1) NOT NULL DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -45,6 +45,7 @@ CREATE TABLE workloads (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     teacher_id INT UNSIGNED NOT NULL,
     module_name VARCHAR(255) NOT NULL COMMENT 'Название модуля',
+    study_group VARCHAR(100) DEFAULT NULL COMMENT 'Учебная группа',
     practice_hours INT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Нагрузка практики, часов',
     deadline DATE NOT NULL COMMENT 'Срок сдачи',
     status ENUM('assigned', 'in_progress', 'submitted', 'overdue') NOT NULL DEFAULT 'assigned',
@@ -52,8 +53,8 @@ CREATE TABLE workloads (
     submitted_filename VARCHAR(255) DEFAULT NULL,
     submitted_at TIMESTAMP NULL DEFAULT NULL,
     comment TEXT DEFAULT NULL,
-    document_path VARCHAR(500) DEFAULT NULL COMMENT 'Копия docx для ONLYOFFICE',
-    form_data JSON NULL COMMENT 'Заполненный график (устар.)',
+    document_path VARCHAR(500) DEFAULT NULL COMMENT 'Копия docx графика',
+    form_data JSON NULL COMMENT 'График занятий (entries: модуль, раздел, тема, дата, время, место, ДОТ)',
     progress_percent TINYINT UNSIGNED NOT NULL DEFAULT 0,
     assigned_by INT UNSIGNED DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -95,6 +96,7 @@ CREATE TABLE audit_logs (
 
 INSERT INTO users (fullname, login, password, role) VALUES
 ('Администратор системы', 'admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
+('Отдел учебного процесса', 'uchebny', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'academic'),
 ('Иванов Иван Иванович', 'ivanov', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'teacher'),
 ('Петрова Мария Сергеевна', 'petrova', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'teacher');
 
@@ -102,8 +104,8 @@ INSERT INTO teachers (user_id, department) VALUES
 (2, 'Кафедра информатики'),
 (3, 'Кафедра математики');
 
-INSERT INTO workloads (teacher_id, module_name, practice_hours, deadline, status, assigned_by) VALUES
-(1, 'Педагогическая практика', 120, DATE_ADD(CURDATE(), INTERVAL 14 DAY), 'assigned', 1),
-(2, 'Производственная практика', 90, DATE_ADD(CURDATE(), INTERVAL 21 DAY), 'assigned', 1);
+INSERT INTO workloads (teacher_id, module_name, study_group, practice_hours, deadline, status, assigned_by) VALUES
+(1, 'Педагогическая практика', 'ИС-21', 120, DATE_ADD(CURDATE(), INTERVAL 14 DAY), 'assigned', 1),
+(2, 'Производственная практика', 'ПИ-22', 90, DATE_ADD(CURDATE(), INTERVAL 21 DAY), 'assigned', 1);
 
 -- Пароль демо: password

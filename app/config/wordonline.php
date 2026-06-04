@@ -18,6 +18,7 @@ return [
     // Публичный URL сайта с HTTPS, например: https://college.edu.kz/ecollege
     // На localhost просмотр Word Online не работает — только на боевом сервере.
     'public_base_url' => '',
+    'token_secret'    => 'ecollege_doc_secret_change_me',
 
     'wopi' => [
         'enabled'        => false,

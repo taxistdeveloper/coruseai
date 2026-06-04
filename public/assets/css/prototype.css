@@ -1,0 +1,161 @@
+/* Prototype shell — screen switcher & annotations */
+.prototype-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(12px);
+    color: #f8fafc;
+    font-size: 0.8125rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.prototype-bar__label {
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    white-space: nowrap;
+}
+
+.prototype-bar__screens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    flex: 1;
+}
+
+.prototype-bar__btn {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.06);
+    color: #e2e8f0;
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.prototype-bar__btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.prototype-bar__btn.is-active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+.prototype-bar__hint {
+    color: #64748b;
+    white-space: nowrap;
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .prototype-bar__hint {
+        display: block;
+    }
+}
+
+body.prototype-mode {
+    padding-top: 2.75rem;
+}
+
+.prototype-screen {
+    display: none;
+    animation: proto-fade 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.prototype-screen.is-active {
+    display: block;
+}
+
+@keyframes proto-fade {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Mock badges (static prototype data) */
+.badge-status {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 0.35em 0.65em;
+    border-radius: 999px;
+}
+.badge-status--submitted   { background: #dcfce7; color: #166534; }
+.badge-status--in_progress { background: #dbeafe; color: #1e40af; }
+.badge-status--assigned    { background: #f1f5f9; color: #475569; }
+.badge-status--overdue     { background: #fee2e2; color: #991b1b; }
+
+/* Schedule grid preview in prototype */
+.proto-schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.35rem;
+    font-size: 0.75rem;
+}
+
+.proto-schedule-grid__head {
+    text-align: center;
+    font-weight: 700;
+    color: var(--text-muted);
+    padding: 0.35rem;
+}
+
+.proto-schedule-cell {
+    aspect-ratio: 1;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    background: var(--surface);
+    cursor: pointer;
+    transition: border-color 150ms ease, background 150ms ease;
+}
+
+.proto-schedule-cell:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.proto-schedule-cell.is-filled {
+    background: var(--row-counted);
+    border-color: #93c5fd;
+}
+
+.proto-schedule-cell.is-holiday {
+    background: var(--row-excluded);
+    color: var(--text-muted);
+    cursor: default;
+}
+
+.proto-schedule-cell__day {
+    font-weight: 700;
+    font-size: 0.875rem;
+}
+
+.proto-schedule-cell__hours {
+    font-size: 0.6875rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.proto-clickable {
+    cursor: pointer;
+}
+
+.proto-clickable:hover {
+    opacity: 0.85;
+}

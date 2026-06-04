@@ -37,9 +37,8 @@ class WordOnlineService
 
     public function publicDocumentUrl(int $workloadId): string
     {
-        $oo = new OnlyOfficeService();
-        $token = urlencode($oo->downloadToken($workloadId));
-        return $this->publicBaseUrl() . '/documents/workload/' . $workloadId . '?token=' . $token;
+        $token = urlencode($this->downloadToken($workloadId));
+        return $this->publicBaseUrl() . '/teacher/workloads/' . $workloadId . '/file?token=' . $token;
     }
 
     /** Office Online Viewer (только просмотр, бесплатно). */
@@ -66,5 +65,28 @@ class WordOnlineService
         $token = urlencode($accessToken);
         $base = rtrim((string) config('wordonline.wopi.office_online_url', ''), '?');
         return $base . '?WOPISrc=' . $wopiSrc . '&access_token=' . $token;
+    }
+
+    public function downloadToken(int $workloadId, int $ttlSeconds = 86400): string
+    {
+        $exp = time() + $ttlSeconds;
+        $secret = (string) config('wordonline.token_secret', 'ecollege_doc_secret_change_me');
+        $sig = hash_hmac('sha256', $workloadId . '|' . $exp, $secret);
+        return base64_encode($workloadId . '|' . $exp . '|' . $sig);
+    }
+
+    public function validateDownloadToken(string $token, int $workloadId): bool
+    {
+        $decoded = base64_decode($token, true);
+        if (!$decoded || !str_contains($decoded, '|')) {
+            return false;
+        }
+        [$id, $exp, $sig] = explode('|', $decoded, 3);
+        if ((int) $id !== $workloadId || time() > (int) $exp) {
+            return false;
+        }
+        $secret = (string) config('wordonline.token_secret', 'ecollege_doc_secret_change_me');
+        $expected = hash_hmac('sha256', $id . '|' . $exp, $secret);
+        return hash_equals($expected, $sig);
     }
 }

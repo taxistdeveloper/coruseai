@@ -96,7 +96,53 @@ class User extends BaseModel
 
     public function delete(int $id): bool
     {
-        return $this->db->prepare('DELETE FROM users WHERE id = ? AND role = ?')->execute([$id, 'teacher']);
+        return $this->deleteByRole($id, 'teacher');
+    }
+
+    public function deleteByRole(int $id, string $role): bool
+    {
+        return $this->db->prepare('DELETE FROM users WHERE id = ? AND role = ?')->execute([$id, $role]);
+    }
+
+    public function findByRole(int $id, string $role): ?array
+    {
+        $stmt = $this->db->prepare('SELECT * FROM users WHERE id = ? AND role = ? LIMIT 1');
+        $stmt->execute([$id, $role]);
+        $row = $stmt->fetch();
+        return $row ?: null;
+    }
+
+    public function allByRole(string $role, string $search = '', int $limit = 50, int $offset = 0): array
+    {
+        $sql = 'SELECT * FROM users WHERE role = ?';
+        $params = [$role];
+        if ($search !== '') {
+            $sql .= ' AND (fullname LIKE ? OR login LIKE ?)';
+            $like = '%' . $search . '%';
+            $params[] = $like;
+            $params[] = $like;
+        }
+        $sql .= ' ORDER BY fullname ASC LIMIT ? OFFSET ?';
+        $params[] = $limit;
+        $params[] = $offset;
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    }
+
+    public function countByRoleFiltered(string $role, string $search = ''): int
+    {
+        $sql = 'SELECT COUNT(*) FROM users WHERE role = ?';
+        $params = [$role];
+        if ($search !== '') {
+            $sql .= ' AND (fullname LIKE ? OR login LIKE ?)';
+            $like = '%' . $search . '%';
+            $params[] = $like;
+            $params[] = $like;
+        }
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return (int) $stmt->fetchColumn();
     }
 
     public function loginExists(string $login, ?int $exceptId = null): bool

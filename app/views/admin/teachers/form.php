@@ -1,9 +1,9 @@
 <?php $isEdit = !empty($teacher); ?>
 <div class="row">
     <div class="col-lg-8">
-        <div class="card shadow-sm border-0 mb-3">
-            <div class="card-header">Данные преподавателя</div>
-            <div class="card-body">
+        <div class="app-card mb-4">
+            <div class="app-card-header">Данные преподавателя</div>
+            <div class="card-body padded">
                 <form method="post" action="<?= $isEdit ? base_url('admin/teachers/' . $teacher['id']) : base_url('admin/teachers') ?>">
                     <?= csrf_field() ?>
                     <div class="mb-3">
@@ -36,6 +36,10 @@
                         <label class="form-label">Название модуля</label>
                         <input type="text" name="module_name" class="form-control" placeholder="Педагогическая практика" value="<?= old('module_name') ?>">
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Группа</label>
+                        <input type="text" name="study_group" class="form-control" placeholder="ИС-21" value="<?= old('study_group') ?>">
+                    </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Часов (нагрузка)</label>
@@ -48,27 +52,31 @@
                     </div>
                     <?php endif; ?>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
-                    <a href="<?= base_url('admin/teachers') ?>" class="btn btn-link">Отмена</a>
+                    <a href="<?= base_url('admin/teachers') ?>" class="btn btn-outline-secondary">Отмена</a>
                 </form>
             </div>
         </div>
     </div>
     <?php if ($isEdit && !empty($workloads)): ?>
     <div class="col-lg-4">
-        <div class="card shadow-sm border-0">
-            <div class="card-header">Нагрузки</div>
+        <div class="app-card">
+            <div class="app-card-header">Нагрузки</div>
             <ul class="list-group list-group-flush">
                 <?php foreach ($workloads as $w): ?>
                 <li class="list-group-item">
-                    <strong><?= e($w['module_name']) ?></strong><br>
-                    <small><?= (int)$w['practice_hours'] ?> ч. · до <?= e($w['deadline']) ?></small><br>
+                    <strong><?= e($w['module_name']) ?></strong>
+                    <?php if (!empty($w['study_group'])): ?>
+                    <span class="text-muted"> · <?= e($w['study_group']) ?></span>
+                    <?php endif; ?>
+                    <br>
+                    <span class="text-muted"><?= (int)$w['practice_hours'] ?> ч. · до <?= e($w['deadline']) ?></span><br>
                     <?= status_badge($w['status']) ?>
-                    <a href="<?= base_url('admin/workloads/' . $w['id']) ?>" class="small">открыть</a>
+                    <a href="<?= base_url('admin/workloads/' . $w['id']) ?>" class="btn btn-outline-primary mt-2">Открыть</a>
                 </li>
                 <?php endforeach; ?>
             </ul>
-            <div class="card-body">
-                <a href="<?= base_url('admin/workloads/create?teacher_id=' . $teacher['id']) ?>" class="btn btn-sm btn-outline-primary w-100">+ Нагрузка</a>
+            <div class="card-body padded">
+                <a href="<?= base_url('admin/workloads/create?teacher_id=' . $teacher['id']) ?>" class="btn btn-outline-primary w-100">+ Нагрузка</a>
             </div>
         </div>
     </div>

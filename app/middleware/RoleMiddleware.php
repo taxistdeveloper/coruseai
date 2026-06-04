@@ -12,7 +12,17 @@ class RoleMiddleware
         if (!is_admin()) {
             http_response_code(403);
             flash('error', 'Доступ только для администратора.');
-            redirect('/teacher');
+            redirect(auth_home_path());
+        }
+    }
+
+    public static function adminOrAcademic(): void
+    {
+        AuthMiddleware::handle();
+        if (!is_staff()) {
+            http_response_code(403);
+            flash('error', 'Недостаточно прав для этого раздела.');
+            redirect(auth_home_path());
         }
     }
 
@@ -22,7 +32,7 @@ class RoleMiddleware
         if (!is_teacher()) {
             http_response_code(403);
             flash('error', 'Доступ только для преподавателя.');
-            redirect('/admin');
+            redirect(auth_home_path());
         }
     }
 }

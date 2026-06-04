@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Core\Controller;
-use App\Models\ScheduleTemplate;
 use App\Models\Teacher;
 use App\Models\Workload;
 use App\Models\WorkloadVersion;
 use App\Services\AuditService;
 use App\Services\FileUploadService;
-use App\Services\OnlyOfficeService;
 use App\Services\WorkloadDocumentService;
+use App\Services\WorkloadScheduleService;
 
 class WorkloadController extends Controller
 {
@@ -52,16 +51,11 @@ class WorkloadController extends Controller
         $id = (new Workload())->create([
             'teacher_id'     => $data['teacher_id'],
             'module_name'    => $data['module_name'],
+            'study_group'    => $data['study_group'] ?: null,
             'practice_hours' => $data['practice_hours'],
             'deadline'       => $data['deadline'],
             'assigned_by'    => auth_id(),
         ]);
-
-        try {
-            (new WorkloadDocumentService())->ensureForWorkload($id);
-        } catch (\Throwable) {
-            flash('warning', 'Нагрузка создана, но шаблон docx не скопирован: ' . $e->getMessage());
-        }
 
         (new AuditService())->record('workload_create', 'workload', $id);
         flash('success', 'Нагрузка назначена.');
@@ -76,30 +70,16 @@ class WorkloadController extends Controller
             redirect('/admin/workloads');
         }
 
-        $oo = new OnlyOfficeService();
-        (new WorkloadDocumentService())->ensureForWorkload((int) $id);
-
-        $editorConfig = null;
-        if ($oo->isEnabled() && !empty($workload['document_path'])) {
-            $editorConfig = $oo->buildEditorConfig(
-                (int) $id,
-                'grafik_' . $workload['module_name'] . '.docx',
-                'view',
-                auth_user() ?? []
-            );
-        }
-
-        $superdocEnabled = (bool) editor_config('superdoc.enabled', true);
+        $schedule = new WorkloadScheduleService();
+        $entries = $schedule->entriesForWorkload($workload);
+        $entries = array_values(array_filter($entries, fn ($e) => $schedule->rowHasAnyValue($e)));
+        $limit = (int) $workload['practice_hours'];
 
         view('admin.workloads.show', [
-            'title'             => $workload['module_name'],
-            'workload'          => $workload,
-            'versions'          => (new WorkloadVersion())->byWorkload((int) $id),
-            'editorConfig'      => $editorConfig,
-            'ooEnabled'         => $oo->isEnabled(),
-            'documentServerUrl' => $oo->documentServerUrl(),
-            'superdocEnabled'   => $superdocEnabled,
-            'docUrl'            => base_url('admin/workloads/' . $id . '/file'),
+            'title'        => $workload['module_name'],
+            'workload'     => $workload,
+            'entries'      => $entries,
+            'hoursSummary' => $schedule->hoursSummary($entries, $limit),
         ]);
     }
 
@@ -125,6 +105,7 @@ class WorkloadController extends Controller
 
         (new Workload())->update((int) $id, [
             'module_name'    => $data['module_name'],
+            'study_group'    => $data['study_group'] ?: null,
             'practice_hours' => $data['practice_hours'],
             'deadline'       => $data['deadline'],
         ]);
@@ -189,6 +170,7 @@ class WorkloadController extends Controller
         return [
             'teacher_id'     => (int) ($_POST['teacher_id'] ?? 0),
             'module_name'    => trim($_POST['module_name'] ?? ''),
+            'study_group'    => trim($_POST['study_group'] ?? ''),
             'practice_hours' => max(0, (int) ($_POST['practice_hours'] ?? 0)),
             'deadline'       => trim($_POST['deadline'] ?? ''),
         ];

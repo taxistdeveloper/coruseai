@@ -1,15 +1,11 @@
 <?php
 
 /**
- * Режимы редактирования графика:
- * - superdoc   — Word внутри сайта (без Docker, через SuperDoc)
- * - external   — скачать → Word на ПК → загрузить
- * - onlyoffice — редактор в браузере (нужен Docker + enabled в onlyoffice.php)
+ * Просмотр docx администратором (SuperDoc). По умолчанию выключен — только скачивание .docx.
  */
 return [
-    'default_tab' => 'superdoc',
-    'superdoc'    => [
-        'enabled' => true,
+    'superdoc' => [
+        'enabled' => false,
         'cdn_css' => 'https://cdn.jsdelivr.net/npm/superdoc/dist/style.css',
         'cdn_js'  => 'https://cdn.jsdelivr.net/npm/superdoc/dist/superdoc.es.js',
     ],
